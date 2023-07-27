@@ -2,6 +2,8 @@ package com.example.superadminscript.dto;
 
 import com.example.superadminscript.entity.User;
 import com.example.superadminscript.enums.Status;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,4 +30,16 @@ public class BaseEntity {
     private User createdBy;
     @ManyToOne
     private User updatedBy;
+
+    @PrePersist
+    public void preAdd(){
+        status = Status.ACTIVE;
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updatedAt = LocalDateTime.now();
+    }
 }
